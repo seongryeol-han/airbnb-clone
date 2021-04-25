@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+{%block page_title%}
+    Home
+
+{%endblock page_title%}
+
+
+
+{%block content%}
+
+    {{now}}
+
+    {% for room in rooms %}
+        <h1>
+            <a href="{% url "rooms:detail"  room.pk%}"> <!-- "rooms:detail"이 의미하는건. config urls에서의 rooms, rooms urls에서의 detail을 의미함. room.pk는 각 room에 primary key가 존재함 id처럼.-->
+                {{room.name}} / ${{room.price}}
+            </a>
+        </h1>
+    {%endfor%}
+
+    <h5>
+    
+    {% if page_obj.has_previous %}
+        <a href ="?page={{page_obj.previous_page_number}}">Previous</a>
+    {% endif %}
+        
+    Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+
+    
+    {% if page_obj.has_next  %}
+        <a href ="?page={{page_obj.next_page_number}}">Next</a>
+
+    {% endif %}
+
+    
+    {% for page in page_obj.paginator.page_range  %}
+        {{page}}
+        
+    {% endfor %}
+        
+        
+    </h5>
+
+    
+        
+
+
+{%endblock content%}

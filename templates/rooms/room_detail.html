@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{%block page_title%}
+    {{room.name}}
+
+{%endblock page_title%}
+
+
+
+{%block content%}
+<div>
+    <h1>{{room.name}}</h1> <!--room은 "모델명"(모델명은 Room인데 소문자로 바꿔서)을 바로 가져오는거다... object라고도 써도 됨-->
+    <h3>{{room.description}}</h3>
+</div>
+<div>
+    <h2>By: {{room.host.username}}
+    
+    {% if room.host.superhost %}
+        (superhost)
+    {% endif %}
+        
+    </h2>
+
+    <h3>Amenities</h3>
+    <ul>
+    {% for a in room.amenities.all  %}
+        <li>{{a}}</li>   
+    {% endfor %}
+    </ul>
+
+    <h3>Facilities</h3>
+    <ul>
+    {% for a in room.facilities.all  %}
+        <li>{{a}}</li>   
+    {% endfor %}
+    </ul>
+
+    <h3>House Rules</h3>
+    <ul>
+    {% for a in room.house_rules.all  %}
+        <li>{{a}}</li>   
+    {% endfor %}
+    </ul>    
+</div>
+{%endblock%}

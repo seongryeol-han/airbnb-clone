@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block page_title %}
+    Search
+{% endblock page_title %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+
+    <h2>Search!</h2>
+
+    <form method="get" action="{% url "rooms:search" %}">
+        <div>
+            <label for="city">City</label>
+            <input value="{{city}}" id="city" name="city" placeholder="Search by City" /> <!--/rooms/search/?city=""으로 이동시켜준다.-->
+            <!--value는 url에서 name의 argument-->
+        </div>
+        
+        <div>
+            <label for="country">Country</label>
+            <select id="country" name="country"> <!--name은 url에서 나오는 country를 의미함.-->
+                
+                {% for country in countries  %}
+                    <option value="{{country.code}}" {% if country.code == s_country  %}selected {% endif %}>
+                        {{country.name}}
+                    </option>
+                    
+                {% endfor %}
+                    
+            </select>
+        </div>
+
+        <div>
+            <label for="room_type">Room Type</label>
+            <select id="room_type" name="room_type"> <!--name은 url에서 나오는 country를 의미함.-->
+                <option value="0" {% if s_room_type == 0 %}selected{% endif %}>Any kind</option>
+                {% for room_type in room_types  %}
+                    <option value="{{room_type.pk}}" {% if s_room_type == room_type.pk %}selected{% endif %}>
+                        {{room_type.name}}
+                    </option>
+                    
+                {% endfor %}
+                    
+            </select>
+        </div>
+        <button>Search</button>
+
+
+    </form>
+    
+{% endblock content %}
+    
