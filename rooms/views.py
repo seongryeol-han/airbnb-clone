@@ -26,21 +26,7 @@ class RoomDetail(DetailView):
 
 
 def search(request):
-    city = request.GET.get("city", "Anywhere")  # city에 뭐가 없을 때 Anywhere을 가져온다.
-    city = str.capitalize(city)  # database 첫번째 알파벳은 대문자이기 때문에.
-    country = request.GET.get("country", "KR")
-    room_type = int(request.GET.get("room_type", 0))
-    room_types = models.RoomType.objects.all()
 
-    form = {
-        "city": city,
-        "s_room_type": room_type,
-        "s_country": country,
-    }
+    rooms = models.Room.objects.filter(**filter_args)
 
-    choices = {
-        "countries": countries,
-        "room_types": room_types,
-    }
-
-    return render(request, "rooms/search.html", {**form, **choices})
+    return render(request, "rooms/search.html", {**form, **choices, "rooms": rooms})
