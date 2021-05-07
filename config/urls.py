@@ -23,6 +23,7 @@ urlpatterns = [
     path(
         "rooms/", include("rooms.urls", namespace="rooms")
     ),  # http://127.0.0.1:8000/rooms/ 가 되는거다 rooms/라고 적었기 때문에
+    path("users/", include("users.urls", namespace="users")),
     path("admin/", admin.site.urls),
 ]
 

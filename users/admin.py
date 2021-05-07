@@ -48,6 +48,8 @@ class CustomUserAdmin(UserAdmin):  # UserAdmin이 있는 이유는 그냥 장고
         "superhost",
         "is_staff",
         "is_superuser",
+        "email_verified",
+        "email_secret",
     )
 
     # list.display , list.filter 함수를 사용하면
