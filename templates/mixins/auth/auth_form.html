@@ -1,0 +1,15 @@
+<form method="POST"  class="w-full" enctype="multipart/form-data"> <!--enctype 이걸 써야 프로필에서 사진 변경할 때 변경이 됨.-->
+    {% csrf_token %} <!--다른 브라우저에서 내 브라우저 접근을 막는거라고 생각하면 됨. -->
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <span class="text-red-700 font-medium text-sm">{{error}}</span>
+        {% endfor %}
+    {% endif %}
+        
+    {% for field in form %}
+        {% include "mixins/auth/form_input.html" with field=field %}
+    {% endfor %}
+    
+    <button class="btn bg-red-500 text-white">{{cta}}</button>
+
+</form>

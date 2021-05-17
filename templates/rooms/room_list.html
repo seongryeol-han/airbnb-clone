@@ -10,41 +10,34 @@
 
 {%block content%}
 
-    {{now}}
-
-    {% for room in rooms %}
-        <h1>
-            <a href="{% url "rooms:detail"  room.pk%}"> <!-- "rooms:detail"이 의미하는건. config urls에서의 rooms, rooms urls에서의 detail을 의미함. room.pk는 각 room에 primary key가 존재함 id처럼.-->
-                {{room.name}} / ${{room.price}}
-            </a>
-        </h1>
-    {%endfor%}
-
-    <h5>
+    <div class=" ">
     
-    {% if page_obj.has_previous %}
-        <a href ="?page={{page_obj.previous_page_number}}">Previous</a>
-    {% endif %}
-        
-    Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+        <div class="mx-auto flex flex-col items-center bg-orange-900 overflow-auto " >
+        {% for room in rooms %}
+            {%include "mixins/room_card.html" with room=room %}
+        {%endfor%}
+        </div>
 
-    
-    {% if page_obj.has_next  %}
-        <a href ="?page={{page_obj.next_page_number}}">Next</a>
+        <div class="flex items-center justify-center mx-auto container">
+            
+            {% if page_obj.has_previous %}
+                <a href ="?page={{page_obj.previous_page_number}}" class="text-blue-500">
+                    <i class="fas fa-arrow-left fa-lg"></i>
+                </a>
 
-    {% endif %}
+            {% endif %}
+            
+            <span class="mx-3 font-medium text-lg"> {{page_obj.number}} of {{page_obj.paginator.num_pages}}</span>
 
-    
-    {% for page in page_obj.paginator.page_range  %}
-        {{page}}
-        
-    {% endfor %}
-        
-        
-    </h5>
+            
+            {% if page_obj.has_next  %}
+                <a href ="?page={{page_obj.next_page_number}}" class="text-blue-500">
+                    <i class="fas fa-arrow-right fa-lg"></i>
+                </a>
 
-    
-        
+            {% endif %}
+            
+        </div>
 
-
+    </div>
 {%endblock content%}

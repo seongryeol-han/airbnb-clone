@@ -1,0 +1,35 @@
+<div class="mt-5 mb-5 bg-yellow-300 w-600px mobile:w-full">
+    <a href="{% url "rooms:detail" room.pk %}">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="bg-gray-700" style="height:300px;"></div>
+            <!--
+            {% for photo in room.all_photo %}
+                <div class="swiper-slide">
+                    <img src="{{photo.file.url}}" style="width: 100%;">
+                </div>
+            {% endfor %}        
+            -->
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <div class="px-1 flex justify-between bg-gray-100 h-60">
+            <div>
+                {%if room.host.superhost%}
+                    <span class="uppercase font-medium text-xs border border-black text-black rounded py-px px-1 ">Superhost</span>
+                
+                {%endif%}
+                <span class="text-sm text-gray-600">{{room.city}}  {{room.country.name}}</span>
+            </div>
+            
+            <span>
+                <i class="fas fa-star text-red-500 text-xs mr-1"></i>{{room.total_rating}}
+            </span>
+
+        </div>
+        <span class="block">{{room.name}}</span>
+    </a>
+</div>

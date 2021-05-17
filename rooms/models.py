@@ -119,3 +119,8 @@ class Room(core_models.TimeStampedModel):
             all_ratings_average = all_ratings / len(all_reviews)
             return round(all_ratings_average, 2)
         return 0
+
+    def all_photo(self):
+        photo = self.photos.all()  # ,를 찍으면 파이썬이 첫번째 array 요소를 원하는구나라는것을 알게됨
+        print(photo[0].file.url)
+        return photo

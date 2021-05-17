@@ -11,7 +11,8 @@ class HomeView(ListView):
     """HomeView Definition"""
 
     model = models.Room
-    paginate_by = 10  # 저절로 한페이지에 10개씩 보여준다.
+    paginate_by = 12  # 저절로 한페이지에 10개씩 보여준다.
+    paginate_orphans = 5
     ordering = "created"
     context_object_name = "rooms"  # Room 모델에서 object를 rooms라고 표현
 

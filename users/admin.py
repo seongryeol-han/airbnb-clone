@@ -30,6 +30,7 @@ class CustomUserAdmin(UserAdmin):  # UserAdmin이 있는 이유는 그냥 장고
                     "language",
                     "currency",
                     "superhost",
+                    "login_method",
                 )
             },
         ),
@@ -50,6 +51,7 @@ class CustomUserAdmin(UserAdmin):  # UserAdmin이 있는 이유는 그냥 장고
         "is_superuser",
         "email_verified",
         "email_secret",
+        "login_method",
     )
 
     # list.display , list.filter 함수를 사용하면
