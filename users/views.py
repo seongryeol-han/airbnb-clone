@@ -5,18 +5,21 @@ from django.views.generic import FormView, DetailView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.contrib import messages
-from . import forms, models
+from django.contrib.messages.views import SuccessMessageMixin
+from . import forms, models, mixins
+
 
 # Create your views here.
 
 
 # 여기서는 아이디 비번이 있는지 확인하는 작업(인증) ((html에 url이 있자나? 그 url이 어떤 view를 불러오느냐)html+form -> view 순서 로직임. 무조건 username을 사용함 아이디로.)
-class LoginView(FormView):
+class LoginView(mixins.LoggedOutOnlyView, FormView):
     template_name = "users/login.html"
     form_class = forms.LoginForm  # forms.py에서 LoginForm을 가져온다.
-    success_url = reverse_lazy("core:home")  # 인증에 성공하면 core:home 주소로 간다.
+    # success_url = reverse_lazy("core:home")  # 인증에 성공하면 core:home 주소로 간다.
 
     def form_valid(self, form):  # form이 유효한지 체크하는 거임.
         email = form.cleaned_data.get("email")  # model에서 가져온다.
@@ -26,6 +29,13 @@ class LoginView(FormView):
             login(self.request, user)  # 인증이 되는건가 보네, 로그인 시킨다.
         return super().form_valid(form)  # 이게 되면 success_url로 돌아간다.
 
+    def get_success_url(self):  # 유저가 가려고 했던 그 주소로 다시 돌려준다 (로그인하고 나서.)
+        next_arg = self.request.GET.get("next")
+        if next_arg is not None:
+            return next_arg
+        else:
+            return reverse("core:home")
+
 
 def log_out(request):  # 무조건 함수 뷰여야함.
     messages.info(request, "See you later")
@@ -33,7 +43,7 @@ def log_out(request):  # 무조건 함수 뷰여야함.
     return redirect(reverse("core:home"))
 
 
-class SignUpView(FormView):
+class SignUpView(mixins.LoggedOutOnlyView, FormView):
     template_name = "users/signup.html"
     form_class = forms.SignUpForm
     success_url = reverse_lazy("core:home")
@@ -215,7 +225,7 @@ class UserProfileView(DetailView):
     # 이것을 방지하기 위해 context_object_name을 쓴다.
 
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
     model = models.User
     template_name = "users/update-profile.html"
     fields = (
@@ -228,19 +238,29 @@ class UpdateProfileView(UpdateView):
         "language",
         "currency",
     )
+    success_message = "Profile Updated"
 
     def get_object(self, queryset=None):
         return self.request.user  # UpdateProfileView 이걸 불러온다면 user에 대해서만 반환해주는것임..
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
+        form.fields["first_name"].widget.attrs = {"placeholder": "First name"}
+        form.fields["last_name"].widget.attrs = {"placeholder": "Last name"}
+        form.fields["bio"].widget.attrs = {"placeholder": "Bio"}
         form.fields["birthdate"].widget.attrs = {"placeholder": "Birthdate"}
         form.fields["first_name"].widget.attrs = {"placeholder": "First name"}
         return form
 
 
-class UpdatePasswordView(PasswordChangeView):
+class UpdatePasswordView(
+    mixins.LoggedInOnlyView,  # 순서 잘 지켜야함.
+    mixins.EmailLoginOnlyView,
+    SuccessMessageMixin,
+    PasswordChangeView,
+):
     template_name = "users/update-password.html"
+    success_message = "Password Updated"
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
@@ -250,3 +270,15 @@ class UpdatePasswordView(PasswordChangeView):
             "placeholder": "Confirm new password"
         }
         return form
+
+    def get_success_url(self):
+        return self.request.user.get_absolute_url()
+
+
+@login_required
+def switch_hosting(request):
+    try:
+        del request.session["is_hosting"]
+    except KeyError:
+        request.session["is_hosting"] = True
+    return redirect(reverse("core:home"))

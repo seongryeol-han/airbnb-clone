@@ -1,8 +1,10 @@
 # 파이썬에서 가져오는거
+from django.utils import timezone
 from django.db import models  # 장고관한거
 from django.urls import reverse  # absolure url 쓸 때 이거 import
 from django_countries.fields import CountryField  # 외부 라이브러리
 from core import models as core_models  # 내 파일에서 가져오는거
+from cal import Calendar
 
 # Create your models here.
 class AbstractItem(core_models.TimeStampedModel):
@@ -124,3 +126,25 @@ class Room(core_models.TimeStampedModel):
         photo = self.photos.all()  # ,를 찍으면 파이썬이 첫번째 array 요소를 원하는구나라는것을 알게됨
         print(photo[0].file.url)
         return photo
+
+    def get_next_four_photos(self):
+        photos = self.photos.all()[1:5]
+        return photos
+
+    def first_photo(self):
+        try:  # try한 이유는. room을 만들 때 사진을 안넣어주면 에러가 나서 사진이 없더라도 그냥 return None 내보내게 함.
+            (photo,) = self.photos.all()[:1]
+            return photo.file.url
+        except ValueError:
+            return None
+
+    def get_calendars(self):
+        now = timezone.now()
+        this_year = now.year
+        this_month = now.month
+        next_month = this_month + 1
+        if this_month == 12:
+            next_month = 1
+        this_month_cal = Calendar(this_year, this_month)
+        next_month_cal = Calendar(this_year, next_month)
+        return [this_month_cal, next_month_cal]

@@ -157,3 +157,8 @@ EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
 # 이 값들을 .env에서 불러와야하는데, 그러기 위해선 django-dotenv를 설치해야함. (pipenv install django-dotenv) 그리고 manage.py 파일에다가 import dotenv 추가.
 # 그리고 manage.py에서 main() 부르기 전에 dotenv.read_dotenv() 요거 삽입.
 EMAIL_FROM = "helloman@sandboxb06f8754e71c4487906c307fde83678e.mailgun.org"
+
+
+# Auth
+
+LOGIN_URL = "/users/login"
