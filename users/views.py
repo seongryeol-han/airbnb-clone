@@ -1,5 +1,7 @@
 import os
 import requests
+from django.utils import translation
+from django.http import HttpResponse, Http404
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic import FormView, DetailView, UpdateView
 from django.urls import reverse_lazy
@@ -10,7 +12,7 @@ from django.core.files.base import ContentFile
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from . import forms, models, mixins
-
+from config import settings
 
 # Create your views here.
 
@@ -282,3 +284,12 @@ def switch_hosting(request):
     except KeyError:
         request.session["is_hosting"] = True
     return redirect(reverse("core:home"))
+
+
+def switch_language(request):
+    lang = request.GET.get("lang", None)
+    if lang is not None:
+        translation.activate(lang)
+        response = HttpResponse(200)
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+    return response

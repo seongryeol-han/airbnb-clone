@@ -27,6 +27,7 @@ urlpatterns = [
     path("reviews/", include("reviews.urls", namespace="reviews")),
     path("admin/", admin.site.urls),
     path("reservations/", include("reservations.urls", namespace="reservations")),
+    path("conversations/", include("conversations.urls", namespace="converstions")),
 ]
 
 if settings.DEBUG:

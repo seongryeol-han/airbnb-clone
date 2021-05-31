@@ -10,9 +10,11 @@ django-countries = "*"
 django-seed = "*"
 django-dotenv = "*"
 requests = "*"
+awsebcli = "*"
 
 [dev-packages]
 black = "*"
+awsebcli = "*"
 
 [requires]
 python_version = "3.9"

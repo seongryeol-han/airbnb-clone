@@ -2,7 +2,6 @@ import datetime
 from django.db import models
 from django.utils import timezone  # 예약이 in_progress인지 아닌지 할때 이거 있어야함.
 from core import models as core_models
-from . import managers
 
 # Create your models here.
 
@@ -46,8 +45,6 @@ class Reservation(core_models.TimeStampedModel):
         "rooms.Room", related_name="reservation", on_delete=models.CASCADE
     )
 
-    objects = managers.CustomReservationManager()
-
     def __str__(self):
         return f"{self.room} - {self.check_in}"
 
@@ -59,11 +56,15 @@ class Reservation(core_models.TimeStampedModel):
 
     def is_finished(self):
         now = timezone.now().date()
+        is_finished = now > self.check_out
+        if is_finished:
+            BookedDay.objects.filter(reservation=self).delete()
+        return is_finished
 
     is_finished.boolean = True
 
     def save(self, *args, **kwargs):
-        if True:  # 우리가 만든 model이 new라는 뜻
+        if self.pk is None:  # 우리가 만든 model이 new라는 뜻
             start = self.check_in
             end = self.check_out
             difference = end - start

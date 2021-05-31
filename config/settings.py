@@ -61,6 +61,7 @@ INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -162,3 +163,11 @@ EMAIL_FROM = "helloman@sandboxb06f8754e71c4487906c307fde83678e.mailgun.org"
 # Auth
 
 LOGIN_URL = "/users/login"
+
+
+# Lcale
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
+
+# Language
+LANGUAGE_COOKIE_NAME = "django_language"

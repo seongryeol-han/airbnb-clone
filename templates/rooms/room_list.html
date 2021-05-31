@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 
 {%block page_title%}
     Home
@@ -27,7 +27,7 @@
 
             {% endif %}
             
-            <span class="mx-3 font-medium text-lg"> {{page_obj.number}} of {{page_obj.paginator.num_pages}}</span>
+            <span class="mx-3 font-medium text-lg">Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}</span>
 
             
             {% if page_obj.has_next  %}
