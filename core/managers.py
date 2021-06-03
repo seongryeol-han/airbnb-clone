@@ -10,5 +10,5 @@ class CustomModelManager(models.Manager):
             return None
 
 
-class CustomUserManage(CustomModelManager, UserManager):
+class CustomUserManager(CustomModelManager, UserManager):
     pass
