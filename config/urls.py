@@ -30,7 +30,7 @@ urlpatterns = [
     ),  # http://127.0.0.1:8000/rooms/ 가 되는거다 rooms/라고 적었기 때문에
     path("users/", include("users.urls", namespace="users")),
     path("reviews/", include("reviews.urls", namespace="reviews")),
-    path("admin/", admin.site.urls),
+    path("admin/", admin.site.urls),  # 이거 나중에 배포할 때 그냥 이렇게 두면 안됨. 26.7강 5:30 부분확인
     path("reservations/", include("reservations.urls", namespace="reservations")),
     path("conversations/", include("conversations.urls", namespace="converstions")),
     path("sentry-debug/", trigger_error),
