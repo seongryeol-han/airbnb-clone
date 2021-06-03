@@ -12,6 +12,7 @@ django-dotenv = "*"
 requests = "*"
 awsebcli = "*"
 pipenv-to-requirements = "*"
+sentry-sdk = "*"
 
 [dev-packages]
 black = "*"
