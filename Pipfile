@@ -13,6 +13,7 @@ requests = "*"
 awsebcli = "*"
 pipenv-to-requirements = "*"
 sentry-sdk = "*"
+django-storages = "*"
 
 [dev-packages]
 black = "*"
