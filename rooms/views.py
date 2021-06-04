@@ -23,6 +23,10 @@ class HomeView(ListView):
     ordering = "created"
     context_object_name = "rooms"  # Room 모델에서 object를 rooms라고 표현
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 class RoomDetail(DetailView):
 
