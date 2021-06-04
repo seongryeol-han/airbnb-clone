@@ -14,7 +14,7 @@
     
         <div class="mx-auto flex flex-col items-center bg-orange-900 overflow-auto " >
         {% for i in range(len(rooms)) %}
-            {%include "mixins/room_card.html" with room=room[i] %}
+            {%include "mixins/room_card.html" with room=rooms[i] %}
         {%endfor%}
         </div>
 
