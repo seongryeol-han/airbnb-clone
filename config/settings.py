@@ -198,8 +198,8 @@ if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = "airbnb-clone-posely"
     AWS_DEFAULT_ACL = "public-read"
 
-    # AWS_S3_MAX_MEMORY_SIZE = "5242880"
-    # AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+    AWS_S3_MAX_MEMORY_SIZE = 5242880
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
     AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com"
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 
